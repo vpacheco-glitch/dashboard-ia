@@ -602,19 +602,19 @@
     <div class="efficiency-kpis">
       <div class="kpi-card accent">
         <div class="kpi-label">Investimento Total</div>
-        <div class="kpi-value">R$ 5,50M</div>
-        <div class="kpi-sub">Facebook <span>R$ 5,09M</span> · Google <span>R$ 413k</span></div>
+        <div class="kpi-value">R$ 2,14M</div>
+        <div class="kpi-sub">Facebook <span>R$ 2,13M</span> · Google <span>R$ 8k</span></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">ROAS Lançamento</div>
-        <div class="kpi-value" style="color: var(--gold)">0,80x</div>
+        <div class="kpi-value" style="color: var(--success)">2,13x</div>
         <div class="kpi-sub">meta <span>4,36x</span> · deficit</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:18%; background: var(--gold)"></div></div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:49%; background: var(--success)"></div></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">ROAS Projeto</div>
-        <div class="kpi-value" style="color: var(--gold)">1,01x</div>
-        <div class="kpi-sub">CPA/WON <span>R$ 57,3k</span> · CPL <span>R$ 98,4</span></div>
+        <div class="kpi-value" style="color: var(--success)">2,96x</div>
+        <div class="kpi-sub">CPA/WON <span>R$ 21,4k</span> · CPL <span>R$ 373</span></div>
       </div>
     </div>
     <div class="card">
@@ -627,7 +627,7 @@
 </div>
 
 <div class="footer">
-  Dados: Databricks production · edicao_do_evento=g4-ia-0326 · Atualizado 28/03/2026 01:09 · G4 OS Mission Control
+  Dados: Databricks production · edicao_do_evento=g4-ia-0326 · Atualizado 28/03/2026 01:13 · G4 OS Mission Control
 </div>
 
 <script>
@@ -727,8 +727,8 @@ new Chart(document.getElementById('chartDiario'), {
 
 // INVESTIMENTO DIÁRIO
 const investDias = ['07/03','08/03','09/03','10/03','11/03','12/03','13/03','14/03','15/03','16/03','17/03','18/03','19/03','20/03','21/03','22/03','23/03','24/03','25/03','26/03','27/03'];
-const fb = [113808,132346,163513,154522,229397,317123,290926,299915,317340,275417,267079,311804,412185,323469,269629,350401,260600,111799,86830,108730,88451];
-const gg = [19655,20073,21557,21637,25023,25212,18088,15262,18417,26392,21991,19358,17624,16772,17748,18453,18050,18924,18659,22451,10613];
+const fb = [24193,32893,61534,53597,100206,146506,142018,138973,159986,113864,110056,149218,208546,172254,125715,189819,122632,10600,16480,24751,30207];
+const gg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,31,2696,1771,1693,1641];
 
 // Acumulados
 const fbAcum = fb.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
