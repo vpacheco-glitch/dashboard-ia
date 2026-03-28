@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G4 IA | Mission Control</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  /* G4 BRAND FONTS — PP Museum (display) + Inter (body) */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    /* G4 Brand Colors (Brand Hub oficial) */
+    --navy:       #001F35;   /* Navy Blue — masterbrand primária */
+    --navy-deep:  #031A26;   /* Mauá Blue — fundo profundo */
+    --scaling:    #184560;   /* Scaling Blue — card/border */
+    --gold:       #B9915B;   /* Royal Gold — destaque/acento */
+    --silver:     #F5F4F3;   /* Royal Silver — texto claro */
+    --founders:   #441B1B;   /* Founders Red — alerta */
+    --clay:       #842E20;   /* Ground Clay — acento quente */
+
+    /* Mapeamento semântico */
+    --bg:         var(--navy-deep);
+    --card:       #041E2E;
+    --card2:      #062437;
+    --border:     #0E3550;
+    --accent:     var(--gold);
+    --accent2:    var(--gold);
+    --success:    #2DB87A;
+    --warning:    var(--gold);
+    --danger:     var(--founders);
+    --text:       var(--silver);
+    --text2:      #7A9BB5;
+    --muted:      #2A4A62;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 16px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+    color: var(--silver);
+  }
+  .logo span { color: var(--gold); }
+  .live-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(185,145,91,0.12); border: 1px solid rgba(185,145,91,0.35);
+    border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--gold);
+  }
+  .live-dot { width: 7px; height: 7px; background: var(--gold); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.3)} }
+  .header-center { flex: 1; max-width: 600px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+  .progress-label strong { color: var(--silver); }
+  .progress-track { background: var(--scaling); border-radius: 4px; height: 8px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #D4AE80); border-radius: 4px; transition: width 1s ease; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  #clock { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--silver); }
+  #countdown { font-size: 11px; color: var(--gold); }
+
+  /* LAYOUT */
+  .container { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
+
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .card-title { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+
+  /* KPI GRID */
+  .kpi-grid { display: grid; gap: 14px; }
+  .kpi-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .kpi-grid-5 { grid-template-columns: repeat(5, 1fr); }
+  .kpi-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .kpi-card.accent { border-color: rgba(185,145,91,0.45); box-shadow: 0 0 24px rgba(185,145,91,0.08); }
+  .kpi-card.green-accent { border-color: rgba(45,184,122,0.35); box-shadow: 0 0 24px rgba(45,184,122,0.07); }
+  .kpi-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text2); color: var(--text2); font-size: 9px; font-weight: 700; cursor: default; position: relative; flex-shrink: 0; text-transform: none; letter-spacing: 0; line-height: 1; }
+  .info-icon:hover .info-tooltip { opacity: 1; pointer-events: auto; }
+  .info-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #0A2436; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; width: 220px; font-size: 12px; color: var(--silver); line-height: 1.5; opacity: 0; pointer-events: none; transition: opacity 0.2s; z-index: 100; text-transform: none; letter-spacing: 0; font-weight: 400; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .info-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--border); }
+  .kpi-value { font-size: 34px; font-weight: 800; letter-spacing: -1px; line-height: 1; color: var(--silver); }
+  .kpi-value.red { color: var(--gold); }
+  .kpi-value.green { color: var(--success); }
+  .kpi-value.gold { color: var(--gold); }
+  .kpi-sub { font-size: 14px; color: var(--text2); margin-top: 6px; }
+  .kpi-sub span { color: var(--silver); }
+  .kpi-bar { margin-top: 8px; background: var(--scaling); border-radius: 3px; height: 4px; overflow: hidden; }
+  .kpi-bar-fill { height: 100%; border-radius: 3px; }
+
+  /* PIPELINE CARDS */
+  .pipeline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .funnel-steps { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .funnel-step { text-align: center; }
+  .funnel-step-val { font-size: 20px; font-weight: 800; }
+  .funnel-step-lbl { font-size: 10px; color: var(--text2); text-transform: uppercase; }
+  .funnel-arrow { color: var(--muted); font-size: 14px; }
+  .funnel-cr { font-size: 10px; color: var(--text2); margin-top: 2px; }
+  .pipeline-stats { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .pipeline-stat-val { font-size: 20px; font-weight: 700; }
+  .pipeline-stat-lbl { font-size: 12px; color: var(--text2); text-transform: uppercase; margin-top: 2px; }
+
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+  .tab { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); color: var(--text2); background: transparent; transition: all .2s; }
+  .tab.active { background: var(--scaling); border-color: var(--gold); color: var(--gold); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); border-bottom: 1px solid var(--border); }
+  td { padding: 9px 10px; border-bottom: 1px solid #0A2D42; }
+  tr:last-child td { border-bottom: none; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .badge-red { background: rgba(185,145,91,0.2); color: #D4AE80; }
+  .badge-green { background: rgba(45,184,122,0.15); color: var(--success); }
+  .badge-yellow { background: rgba(185,145,91,0.15); color: var(--gold); }
+  .badge-gray { background: var(--scaling); color: var(--text2); }
+  .alert-row td { background: rgba(68,27,27,0.15); }
+
+  /* MINI PROGRESS */
+  .mini-bar-track { background: var(--scaling); border-radius: 3px; height: 4px; margin-top: 4px; overflow: hidden; }
+  .mini-bar-fill { height: 100%; border-radius: 3px; background: var(--gold); }
+
+  /* SECTION ROW */
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* EFFICIENCY */
+  .efficiency-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+
+  /* LIVE FEED */
+  .live-feed { display: flex; flex-direction: column; gap: 8px; }
+  .feed-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px;
+    animation: slideIn .4s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
+  .feed-left { display: flex; align-items: center; gap: 10px; }
+  .feed-pipeline { font-size: 11px; font-weight: 600; }
+  .feed-source { font-size: 11px; color: var(--text2); }
+  .feed-value { font-size: 16px; font-weight: 800; color: var(--gold); }
+  .feed-time { font-size: 11px; color: var(--text2); }
+
+  /* PROJECTION */
+  .projection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .proj-card { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .proj-val { font-size: 24px; font-weight: 800; }
+  .proj-lbl { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text2); border-top: 1px solid var(--border); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    background: var(--navy);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .filter-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text2); white-space: nowrap; }
+  .filter-toggle {
+    display: flex;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .filter-toggle button {
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .filter-toggle button.active {
+    background: var(--scaling);
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .filter-days {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .filter-day {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--text2);
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .filter-day.active {
+    background: rgba(185,145,91,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .filter-separator { width: 1px; height: 20px; background: var(--border); }
+  #filter-status { font-size: 11px; color: var(--text2); margin-left: auto; }
+  #filter-status strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">G4 <span>IA</span> | Mission Control</div>
+  </div>
+  <div class="header-center">
+    <div class="progress-label">
+      <span>Receita Lançamento <strong id="receita-lancamento-pct">44,3%</strong> da meta</span>
+      <span><strong>R$ 4,43M</strong> / R$ 10M</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="main-progress" style="width: 44.3%"></div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div id="clock">--:--:--</div>
+    <div id="countdown">Carregando...</div>
+  </div>
+</div>
+
+
+<div class="container">
+
+  <!-- ROW 1: RECEITA KPIs -->
+  <div class="kpi-grid kpi-grid-3">
+    <div class="kpi-card accent">
+      <div class="kpi-label">Receita Lançamento <span class="info-icon">i<span class="info-tooltip">Receita gerada por leads originados diretamente pelo lançamento G4 IA — inclui Comercial, Vendas Evento e Selfcheckout.</span></span></div>
+      <div class="kpi-value red">R$ 4,43M</div>
+      <div class="kpi-sub"><span>96 WONs</span> · meta R$ 10M</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:44.3%; background: var(--gold)"></div></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Receita Produtos <span class="info-icon">i<span class="info-tooltip">Receita de leads fora do lançamento que adquiriram produtos IA (G4 Implementação de IA ou Sprints de IA - Vaga).</span></span></div>
+      <div class="kpi-value">R$ 1,43M</div>
+      <div class="kpi-sub"><span>31 WONs</span></div>
+    </div>
+    <div class="kpi-card green-accent">
+      <div class="kpi-label">Receita Projeto Total <span class="info-icon">i<span class="info-tooltip">Visão consolidada do projeto G4 IA: soma da receita do lançamento com a receita de produtos IA captada fora do lançamento.</span></span></div>
+      <div class="kpi-value green">R$ 5,57M</div>
+      <div class="kpi-sub"><span>120 WONs</span> · Lançamento + Produtos IA</div>
+    </div>
+  </div>
+
+  <!-- ROW 2: FUNIL KPIs -->
+  <div class="kpi-grid kpi-grid-5">
+    <div class="kpi-card accent">
+      <div class="kpi-label">MQLs Comercial</div>
+      <div class="kpi-value red">1.258</div>
+      <div class="kpi-sub">meta <span>8.412</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Conectados (SAL)</div>
+      <div class="kpi-value">86</div>
+      <div class="kpi-sub">CR MQL→SAL <span>6,8%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Agendados</div>
+      <div class="kpi-value">40</div>
+      <div class="kpi-sub">CR SAL→Agend <span>46%</span></div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Oportunidades</div>
+      <div class="kpi-value">98</div>
+      <div class="kpi-sub">Em negociação ativa</div>
+    </div>
+    <div class="kpi-card accent">
+      <div class="kpi-label">CR MQL→WON</div>
+      <div class="kpi-value red">0,79%</div>
+      <div class="kpi-sub">meta <span>2,43%</span> · 10 WONs</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:33%; background: var(--gold)"></div></div>
+    </div>
+  </div>
+
+  <!-- ROW 3: PIPELINE COMPARISON -->
+  <div class="pipeline-grid">
+    <!-- COMERCIAL -->
+    <div class="card">
+      <div class="card-title">Time G4 · Aquisição</div>
+      <div style="margin-top: 10px; text-align: center;">
+        <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">Funil de vendas — MQL → WON</div>
+        <div style="display:flex; gap:24px; align-items:flex-end; justify-content:center;">
+          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">1.258</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
+          <div><div style="font-size: 38px; font-weight: 700; color: var(--gold);">10</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div></div>
+          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,79%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
+        </div>
+      </div>
+      <div class="pipeline-stats">
+        <div><div class="pipeline-stat-val" style="color: var(--gold)">R$ 453k</div><div class="pipeline-stat-lbl">Receita</div></div>
+        <div><div class="pipeline-stat-val" style="color: var(--text2)">2,43%</div><div class="pipeline-stat-lbl">Meta CVR</div></div>
+        <div><div class="pipeline-stat-val">98 OPPs</div><div class="pipeline-stat-lbl">Em negociação</div></div>
+      </div>
+    </div>
+
+    <!-- VENDAS EVENTO -->
+    <div class="card">
+      <div class="card-title">Time Viver de IA</div>
+      <div style="margin-top: 10px; text-align: center;">
+        <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">MQL = deals únicos criados (deal_fcts)</div>
+        <div style="display:flex; gap:24px; align-items:flex-end; justify-content:center;">
+          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">4.536</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
+          <div><div style="font-size: 38px; font-weight: 700; color: var(--gold);">38</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div></div>
+          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,8%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
+        </div>
+      </div>
+      <div class="pipeline-stats">
+        <div><div class="pipeline-stat-val" style="color: var(--gold)">R$ 1,77M</div><div class="pipeline-stat-lbl">Receita</div></div>
+        <div><div class="pipeline-stat-val" style="color: var(--success)">R$ 46,6k</div><div class="pipeline-stat-lbl">Ticket médio</div></div>
+        <div><div class="pipeline-stat-val">YouTube</div><div class="pipeline-stat-lbl">Top canal</div></div>
+      </div>
+    </div>
+
+    <!-- SELFCHECKOUT -->
+    <div class="card">
+      <div class="card-title">Selfcheckout</div>
+      <div style="margin-top: 10px; text-align: center;">
+        <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">Auto-compra — CR 100%</div>
+        <div style="display:flex; align-items:flex-end; gap:16px; justify-content:center;">
+          <div>
+            <div style="font-size: 56px; font-weight: 800; color: var(--success);">48</div>
+            <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div>
+          </div>
+          <div style="padding-bottom: 6px;">
+            <div style="font-size: 24px; font-weight: 700; color: var(--success);">R$ 2,20M</div>
+            <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">Receita</div>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline-stats">
+        <div><div class="pipeline-stat-val" style="color: var(--success)">R$ 2,20M</div><div class="pipeline-stat-lbl">Receita</div></div>
+        <div><div class="pipeline-stat-val" style="color: var(--success)">100%</div><div class="pipeline-stat-lbl">CR</div></div>
+        <div><div class="pipeline-stat-val">YouTube</div><div class="pipeline-stat-lbl">Top canal</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 4: CR POR CANAL + VENDEDORES (tabs) -->
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('canal')">Por Canal</button>
+      <button class="tab" onclick="switchTab('vendedor')">Lançamento x Produto</button>
+    </div>
+
+    <!-- TAB CANAL -->
+    <div class="tab-panel active" id="tab-canal">
+      <table>
+        <thead>
+          <tr>
+            <th>Canal (utm_source)</th>
+            <th>Deals</th>
+            <th>WONs</th>
+            <th>CR%</th>
+            <th>Receita</th>
+            <th>% do Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🎬 youtube</td>
+            <td>599</td>
+            <td>59</td>
+            <td><span class="badge badge-green">9,8%</span></td>
+            <td><strong>R$ 2,76M</strong></td>
+            <td>
+              <div>62%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:62%; background: var(--success)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>💬 whatsapp</td>
+            <td>1.397</td>
+            <td>13</td>
+            <td><span class="badge badge-yellow">0,9%</span></td>
+            <td>R$ 608k</td>
+            <td>
+              <div>14%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:14%; background: var(--gold)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>🔵 hubspot</td>
+            <td>1.975</td>
+            <td>13</td>
+            <td><span class="badge badge-yellow">0,7%</span></td>
+            <td>R$ 599k</td>
+            <td>
+              <div>14%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:14%; background: var(--gold)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>🔗 direto</td>
+            <td>277</td>
+            <td>6</td>
+            <td><span class="badge badge-yellow">2,2%</span></td>
+            <td>R$ 252k</td>
+            <td>
+              <div>6%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:6%; background: var(--gold)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>📘 facebook</td>
+            <td>652</td>
+            <td>4</td>
+            <td><span class="badge badge-red">0,6%</span></td>
+            <td>R$ 159k</td>
+            <td>
+              <div>4%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:4%; background: var(--gold)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>🎥 viver_de_ia</td>
+            <td>2</td>
+            <td>1</td>
+            <td><span class="badge badge-green">50%</span></td>
+            <td>R$ 47k</td>
+            <td>
+              <div>1%</div>
+              <div class="mini-bar-track"><div class="mini-bar-fill" style="width:1%; background: var(--gold)"></div></div>
+            </td>
+          </tr>
+          <tr>
+            <td>📸 instagram</td>
+            <td>402</td>
+            <td>0</td>
+            <td><span class="badge badge-red">0%</span></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>🔍 google</td>
+            <td>54</td>
+            <td>0</td>
+            <td><span class="badge badge-red">0%</span></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>📱 social</td>
+            <td>124</td>
+            <td>0</td>
+            <td><span class="badge badge-red">0%</span></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>📅 evento</td>
+            <td>103</td>
+            <td>0</td>
+            <td><span class="badge badge-red">0%</span></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr style="background: rgba(185,145,91,0.06); border-top: 2px solid var(--border);">
+            <td><strong>Total</strong></td>
+            <td><strong>5.585</strong></td>
+            <td><strong>96</strong></td>
+            <td><span class="badge badge-yellow">1,7%</span></td>
+            <td><strong style="color:var(--success)">R$ 4,43M</strong></td>
+            <td><strong>100%</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TAB LANÇAMENTO X PRODUTO -->
+    <div class="tab-panel" id="tab-vendedor">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:140px">Lançamento x Produto</th>
+            <th>Pipeline</th>
+            <th style="text-align:right"># MQLs</th>
+            <th style="text-align:right"># WON</th>
+            <th style="text-align:right">CVR</th>
+            <th style="text-align:right">R$ Receita</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- LANÇAMENTO -->
+          <tr>
+            <td rowspan="4" style="color:var(--text2); font-size:12px; border-right: 1px solid var(--border); padding-right: 14px; vertical-align: middle;">Lançamento</td>
+            <td>Comercial</td>
+            <td style="text-align:right">1.258</td>
+            <td style="text-align:right; color:var(--gold)"><strong>10</strong></td>
+            <td style="text-align:right"><span class="badge badge-red">0,8%</span></td>
+            <td style="text-align:right">452.700</td>
+          </tr>
+          <tr>
+            <td>[ON] Selfcheckout</td>
+            <td style="text-align:right">48</td>
+            <td style="text-align:right; color:var(--success)"><strong>48</strong></td>
+            <td style="text-align:right"><span class="badge badge-green">100%</span></td>
+            <td style="text-align:right">2.204.280</td>
+          </tr>
+          <tr>
+            <td>Vendas Evento</td>
+            <td style="text-align:right">4.536 <span style="font-size:10px;color:var(--text2)">(únicos)</span></td>
+            <td style="text-align:right; color:var(--success)"><strong>38</strong></td>
+            <td style="text-align:right"><span class="badge badge-red">0,8%</span></td>
+            <td style="text-align:right">1.769.400</td>
+          </tr>
+          <tr style="background: var(--card2);">
+            <td><strong>Subtotal (Lançamento)</strong></td>
+            <td style="text-align:right"><strong>5.842</strong></td>
+            <td style="text-align:right; color:var(--gold)"><strong>96</strong></td>
+            <td style="text-align:right"><span class="badge badge-yellow">1,6%</span></td>
+            <td style="text-align:right"><strong>4.426.380</strong></td>
+          </tr>
+          <!-- PRODUTO -->
+          <tr>
+            <td rowspan="3" style="color:var(--text2); font-size:12px; border-right: 1px solid var(--border); padding-right: 14px; border-top: 2px solid var(--border); vertical-align: middle;">Produto</td>
+            <td style="border-top: 2px solid var(--border)">G4 Implementação IA</td>
+            <td style="text-align:right; border-top: 2px solid var(--border)">—</td>
+            <td style="text-align:right; color:var(--success); border-top: 2px solid var(--border)"><strong>30</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border)">—</td>
+            <td style="text-align:right; border-top: 2px solid var(--border)">1.384.076</td>
+          </tr>
+          <tr>
+            <td>Sprints de IA - Vaga</td>
+            <td style="text-align:right">—</td>
+            <td style="text-align:right; color:var(--success)"><strong>1</strong></td>
+            <td style="text-align:right">—</td>
+            <td style="text-align:right">46.800</td>
+          </tr>
+          <tr style="background: var(--card2);">
+            <td><strong>Subtotal (Produto)</strong></td>
+            <td style="text-align:right"><strong>—</strong></td>
+            <td style="text-align:right; color:var(--success)"><strong>31</strong></td>
+            <td style="text-align:right">—</td>
+            <td style="text-align:right"><strong>1.430.876</strong></td>
+          </tr>
+          <!-- TOTAL -->
+          <tr style="background: rgba(185,145,91,0.06); border-top: 2px solid var(--border);">
+            <td colspan="2" style="border-top: 2px solid var(--border);"><strong>Report Total</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border);"><strong>4.893</strong></td>
+            <td style="text-align:right; color:var(--success); border-top: 2px solid var(--border);"><strong>120</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border);">—</td>
+            <td style="text-align:right; border-top: 2px solid var(--border);"><strong style="color:var(--success)">5.566.956</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ROW 5: RECEITA DIÁRIA -->
+  <div class="card">
+    <div class="card-title">Receita Diária — Realizado vs Meta (Lançamento)</div>
+    <canvas id="chartDiario" height="90"></canvas>
+  </div>
+
+  <!-- ROW 5B: MQL DIÁRIO -->
+  <div class="card">
+    <div class="card-title">MQLs Diários por Pipeline (data de criação)</div>
+    <canvas id="chartMQL" height="90"></canvas>
+  </div>
+
+  <!-- ROW 6: INVESTIMENTO -->
+  <div>
+    <div class="efficiency-kpis">
+      <div class="kpi-card accent">
+        <div class="kpi-label">Investimento Total</div>
+        <div class="kpi-value">R$ 5,50M</div>
+        <div class="kpi-sub">Facebook <span>R$ 5,09M</span> · Google <span>R$ 413k</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROAS Lançamento</div>
+        <div class="kpi-value" style="color: var(--gold)">0,80x</div>
+        <div class="kpi-sub">meta <span>4,36x</span> · deficit</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:18%; background: var(--gold)"></div></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROAS Projeto</div>
+        <div class="kpi-value" style="color: var(--gold)">1,01x</div>
+        <div class="kpi-sub">CPA/WON <span>R$ 57,3k</span> · CPL <span>R$ 98,4</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Investimento Diário por Plataforma (março)</div>
+      <canvas id="chartInvest" height="80"></canvas>
+    </div>
+  </div>
+
+
+</div>
+
+<div class="footer">
+  Dados: Databricks production · g4-ia-0326 · Atualizado 27/03/2026 20:21 · G4 OS Mission Control
+</div>
+
+<script>
+// CLOCK + COUNTDOWN
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('pt-BR');
+  const target = new Date('2026-03-30T23:59:00-03:00');
+  const diff = target - now;
+  if (diff > 0) {
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('countdown').textContent = `⏱ Encerramento em ${d}d ${h}h ${m}m`;
+  } else {
+    document.getElementById('countdown').textContent = '🏁 Lançamento encerrado';
+  }
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// TABS
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// CHART CORES — G4 Brand System
+const RED = '#B9915B';       // Royal Gold
+const GREEN = '#2DB87A';     // Success green
+const DARKGREEN = '#184560'; // Scaling Blue
+const YELLOW = '#B9915B';    // Royal Gold
+const NAVY = '#001F35';      // Navy Blue
+const GRID_COLOR = 'rgba(24,69,96,0.4)';
+const TEXT_COLOR = '#7A9BB5';
+
+Chart.defaults.color = TEXT_COLOR;
+Chart.defaults.borderColor = GRID_COLOR;
+
+// RECEITA DIÁRIA — fonte: production.gold.deals_fct (closed_at), g4-ia-0326
+// Query: SELECT pipeline_name, DATE(closed_at), COUNT(*), SUM(revenue) WHERE linha_de_receita_operacional='g4-ia-0326' AND stage IN ('Ganho','Pagamento Parcial - Ganho')
+const diasLabels = ['23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '30/03'];
+const metas      = [3510000, 1216800, 982800, 795600, 608400, 561600, 2480400];
+const selfcheckout = [1923480, 46800, 46800, 140400, 46800, 0, 0];
+const vendasEvento = [795600, 421200, 327600, 131400, 93600, 0, 0];
+const comercial    = [0, 59800, 93600, 46800, 252500, 0, 0];
+// Dados atualizados em 27/03 20h00
+
+new Chart(document.getElementById('chartDiario'), {
+  type: 'bar',
+  data: {
+    labels: diasLabels,
+    datasets: [
+      {
+        label: 'Selfcheckout', data: selfcheckout,
+        backgroundColor: DARKGREEN, stack: 'receita', borderRadius: 2,
+      },
+      {
+        label: 'Vendas Evento', data: vendasEvento,
+        backgroundColor: RED, stack: 'receita', borderRadius: 2,
+      },
+      {
+        label: 'Comercial', data: comercial,
+        backgroundColor: '#B9915B', stack: 'receita', borderRadius: 2,
+      },
+      {
+        label: 'Meta', data: metas,
+        type: 'line', borderColor: YELLOW, borderDash: [5,4],
+        borderWidth: 2, pointRadius: 3, pointBackgroundColor: YELLOW,
+        fill: false, tension: 0.1,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { font: { size: 11 }, boxWidth: 12, padding: 16 } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: R$ ${(ctx.raw/1000).toFixed(0)}k`
+        }
+      }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: {
+        stacked: true,
+        ticks: {
+          callback: v => 'R$ ' + (v/1000000).toFixed(1) + 'M'
+        }
+      }
+    }
+  }
+});
+
+// INVESTIMENTO DIÁRIO
+const investDias = ['07/03','08/03','09/03','10/03','11/03','12/03','13/03','14/03','15/03','16/03','17/03','18/03','19/03','20/03','21/03','22/03','23/03','24/03','25/03','26/03','27/03'];
+const fb = [113808,132346,163513,154522,229397,317123,290926,299915,317340,275417,267079,311804,412185,323469,269629,350401,260600,111799,86830,108730,88451];
+const gg = [19655,20073,21557,21637,25023,25212,18088,15262,18417,26392,21991,19358,17624,16772,17748,18453,18050,18924,18659,22451,10613];
+
+// Acumulados
+const fbAcum = fb.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
+const ggAcum = gg.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
+const totalAcum = fbAcum.map((v, i) => v + ggAcum[i]);
+
+new Chart(document.getElementById('chartInvest'), {
+  type: 'bar',
+  data: {
+    labels: investDias,
+    datasets: [
+      {
+        label: 'Facebook', data: fb,
+        backgroundColor: 'rgba(23,60,85,0.85)', borderRadius: 2,
+        stack: 'inv', order: 2,
+      },
+      {
+        label: 'Google', data: gg,
+        backgroundColor: 'rgba(23,60,85,0.45)', borderRadius: 2,
+        stack: 'inv', order: 2,
+      },
+      {
+        label: 'Acum. Facebook', data: fbAcum,
+        type: 'line', order: 1,
+        borderColor: '#173C55', backgroundColor: 'transparent',
+        borderWidth: 2, borderDash: [4,3], pointRadius: 2, pointHoverRadius: 4,
+        yAxisID: 'yAcum',
+      },
+      {
+        label: 'Acum. Total', data: totalAcum,
+        type: 'line', order: 0,
+        borderColor: '#B9915B', backgroundColor: 'transparent',
+        borderWidth: 2.5, pointRadius: 2, pointHoverRadius: 4,
+        yAxisID: 'yAcum',
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { labels: { font: { size: 11 }, boxWidth: 12 } },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            const v = ctx.raw;
+            if (ctx.dataset.yAxisID === 'yAcum') {
+              return ` ${ctx.dataset.label}: R$ ${(v/1000).toFixed(0)}k acum.`;
+            }
+            return ` ${ctx.dataset.label}: R$ ${(v/1000).toFixed(1)}k`;
+          }
+        }
+      },
+      annotation: {}
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
+      y: {
+        stacked: true,
+        ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' }
+      },
+      yAcum: {
+        position: 'right',
+        grid: { drawOnChartArea: false },
+        ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k', font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// MQLs DIÁRIOS — fonte: production.gold.deals_fct (created_at), g4-ia-0326
+// Query: SELECT pipeline_name, DATE(created_at), COUNT(*) WHERE linha_de_receita_operacional='g4-ia-0326' AND created_at >= '2026-03-23'
+const mqlLabels = ['23/03', '24/03', '25/03', '26/03', '27/03'];
+const mqlComercial    = [6,    1,   224,  594, 423];
+const mqlVendasEvento = [1769, 1749,  441,  320, 165];
+const mqlSelfcheckout = [43,    1,     1,    2,   0];
+
+new Chart(document.getElementById('chartMQL'), {
+  type: 'bar',
+  data: {
+    labels: mqlLabels,
+    datasets: [
+      {
+        label: 'Vendas Evento', data: mqlVendasEvento,
+        backgroundColor: YELLOW, stack: 'mql', borderRadius: 2,
+      },
+      {
+        label: 'Comercial', data: mqlComercial,
+        backgroundColor: 'rgba(23,60,85,0.85)', stack: 'mql', borderRadius: 2,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { font: { size: 11 }, boxWidth: 12 } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('pt-BR')} MQLs`
+        }
+      }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: {
+        stacked: true,
+        ticks: { callback: v => v >= 1000 ? (v/1000).toFixed(1) + 'k' : v }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
