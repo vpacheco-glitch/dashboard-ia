@@ -599,20 +599,20 @@
   <div>
     <div class="efficiency-kpis">
       <div class="kpi-card accent">
-        <div class="kpi-label">Investimento Total</div>
-        <div class="kpi-value">R$ 5,81M</div>
-        <div class="kpi-sub">Facebook <span>R$ 5,39M</span> · Google <span>R$ 422k</span></div>
+        <div class="kpi-label">Investimento Total <span class="info-icon">i<span class="info-tooltip">Apenas campanhas do lançamento G4 IA (utm_campaign LIKE '%lanc_ia_0326%'). Somente Facebook — sem Google neste lançamento.</span></span></div>
+        <div class="kpi-value">R$ 2,44M</div>
+        <div class="kpi-sub">Facebook <span>R$ 2,44M</span> · Google <span>—</span></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">ROAS Lançamento</div>
-        <div class="kpi-value" style="color: var(--gold)">0,76x</div>
-        <div class="kpi-sub">meta <span>4,36x</span> · deficit</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:17%; background: var(--gold)"></div></div>
+        <div class="kpi-value" style="color: var(--gold)">1,87x</div>
+        <div class="kpi-sub">meta <span>4,36x</span> · R$ 4,57M / R$ 2,44M</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:43%; background: var(--gold)"></div></div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">ROAS Projeto</div>
-        <div class="kpi-value" style="color: var(--gold)">1,07x</div>
-        <div class="kpi-sub">CPA/WON <span>R$ 60,5k</span> · Receita total <span>R$ 6,20M</span></div>
+        <div class="kpi-value" style="color: var(--success)">2,62x</div>
+        <div class="kpi-sub">CPA/WON <span>R$ 24,4k</span> · Receita total <span>R$ 6,40M</span></div>
       </div>
     </div>
     <div class="card">
@@ -727,9 +727,9 @@ new Chart(document.getElementById('chartDiario'), {
 // INVESTIMENTO DIÁRIO — fonte: production.gold.marketing_fct — event='investimento', utm_source IN ('facebook','google')
 // Atualizado: 28/03/2026 14:13
 const investDias = ['07/03','08/03','09/03','10/03','11/03','12/03','13/03','14/03','15/03','16/03','17/03','18/03','19/03','20/03','21/03','22/03','23/03','24/03','25/03','26/03','27/03','28/03'];
-const fb = [113808,132346,163513,154522,229397,317123,290926,299915,317340,275417,267079,311804,412185,323469,269629,350401,260600,111799,86831,108739,145768,47745];
-const gg = [19655,20073,21557,21637,25023,25212,18088,15262,18417,26392,21991,19358,17624,16772,17748,18453,18050,18924,18659,22443,16243,3636];
-// FB total: R$ 5.389.856 | GG total: R$ 422.217 | Total: R$ 5.812.073 — Atualizado 28/03/2026 14:13
+const fb = [27133,36890,69011,60110,112381,164307,159274,155859,179425,127699,123429,167349,233885,193183,140990,212883,137533,11888,18483,27763,62731,20274];
+const gg = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+// FB total: R$ 2.442.480 | GG: R$ 0 | Total: R$ 2.442.480 — Atualizado 28/03/2026 14:57
 
 // Acumulados
 const fbAcum = fb.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
