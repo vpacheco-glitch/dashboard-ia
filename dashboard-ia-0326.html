@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta name="referrer" content="no-referrer">
 <title>G4 IA | Mission Control</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" integrity="sha256-oVS9iR2wW3MdKBE4eSxnVS2SGU7TtMGnRFQCYj84tlY=" crossorigin="anonymous"></script>
 <style>
   /* G4 BRAND FONTS — PP Museum (display) + Inter (body) */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -242,11 +246,11 @@
   </div>
   <div class="header-center">
     <div class="progress-label">
-      <span>Receita Lançamento <strong id="receita-lancamento-pct">44,3%</strong> da meta</span>
-      <span><strong>R$ 4,43M</strong> / R$ 10M</span>
+      <span>Receita Lançamento <strong id="receita-lancamento-pct">45,7%</strong> da meta</span>
+      <span><strong>R$ 4,57M</strong> / R$ 10M</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="main-progress" style="width: 44.3%"></div>
+      <div class="progress-fill" id="main-progress" style="width: 45.7%"></div>
     </div>
   </div>
   <div class="header-right">
@@ -262,9 +266,9 @@
   <div class="kpi-grid kpi-grid-3">
     <div class="kpi-card accent">
       <div class="kpi-label">Receita Lançamento <span class="info-icon">i<span class="info-tooltip">Receita gerada por leads originados diretamente pelo lançamento G4 IA — inclui Comercial, Vendas Evento e Selfcheckout.</span></span></div>
-      <div class="kpi-value red">R$ 4,43M</div>
-      <div class="kpi-sub"><span>96 WONs</span> · meta R$ 10M</div>
-      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:44.3%; background: var(--gold)"></div></div>
+      <div class="kpi-value red">R$ 4,57M</div>
+      <div class="kpi-sub"><span>100 WONs</span> · meta R$ 10M</div>
+      <div class="kpi-bar"><div class="kpi-bar-fill" style="width:45.68%; background: var(--gold)"></div></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Receita Produtos <span class="info-icon">i<span class="info-tooltip">Receita de leads fora do lançamento que adquiriram produtos IA (G4 Implementação de IA ou Sprints de IA - Vaga).</span></span></div>
@@ -273,8 +277,8 @@
     </div>
     <div class="kpi-card green-accent">
       <div class="kpi-label">Receita Projeto Total <span class="info-icon">i<span class="info-tooltip">Visão consolidada do projeto G4 IA: soma da receita do lançamento com a receita de produtos IA captada fora do lançamento.</span></span></div>
-      <div class="kpi-value green">R$ 5,57M</div>
-      <div class="kpi-sub"><span>120 WONs</span> · Lançamento + Produtos IA</div>
+      <div class="kpi-value green">R$ 5,71M</div>
+      <div class="kpi-sub"><span>131 WONs</span> · Lançamento + Produtos IA</div>
     </div>
   </div>
 
@@ -282,28 +286,28 @@
   <div class="kpi-grid kpi-grid-5">
     <div class="kpi-card accent">
       <div class="kpi-label">MQLs Comercial</div>
-      <div class="kpi-value red">1.258</div>
+      <div class="kpi-value red">1.248</div>
       <div class="kpi-sub">meta <span>8.412</span></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Conectados (SAL)</div>
       <div class="kpi-value">86</div>
-      <div class="kpi-sub">CR MQL→SAL <span>6,8%</span></div>
+      <div class="kpi-sub">CR MQL→SAL <span>6,9%</span></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Agendados</div>
-      <div class="kpi-value">40</div>
-      <div class="kpi-sub">CR SAL→Agend <span>46%</span></div>
+      <div class="kpi-value">63</div>
+      <div class="kpi-sub">CR SAL→Agend <span>73%</span></div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Oportunidades</div>
-      <div class="kpi-value">98</div>
+      <div class="kpi-value">94</div>
       <div class="kpi-sub">Em negociação ativa</div>
     </div>
     <div class="kpi-card accent">
       <div class="kpi-label">CR MQL→WON</div>
-      <div class="kpi-value red">0,79%</div>
-      <div class="kpi-sub">meta <span>2,43%</span> · 10 WONs</div>
+      <div class="kpi-value red">0,80%</div>
+      <div class="kpi-sub">meta <span>2,43%</span> · 11 WONs</div>
       <div class="kpi-bar"><div class="kpi-bar-fill" style="width:33%; background: var(--gold)"></div></div>
     </div>
   </div>
@@ -316,15 +320,15 @@
       <div style="margin-top: 10px; text-align: center;">
         <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">Funil de vendas — MQL → WON</div>
         <div style="display:flex; gap:24px; align-items:flex-end; justify-content:center;">
-          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">1.258</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
+          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">1.248</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
           <div><div style="font-size: 38px; font-weight: 700; color: var(--gold);">10</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div></div>
-          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,79%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
+          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,80%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
         </div>
       </div>
       <div class="pipeline-stats">
         <div><div class="pipeline-stat-val" style="color: var(--gold)">R$ 453k</div><div class="pipeline-stat-lbl">Receita</div></div>
         <div><div class="pipeline-stat-val" style="color: var(--text2)">2,43%</div><div class="pipeline-stat-lbl">Meta CVR</div></div>
-        <div><div class="pipeline-stat-val">98 OPPs</div><div class="pipeline-stat-lbl">Em negociação</div></div>
+        <div><div class="pipeline-stat-val">94 OPPs</div><div class="pipeline-stat-lbl">Em negociação</div></div>
       </div>
     </div>
 
@@ -334,13 +338,13 @@
       <div style="margin-top: 10px; text-align: center;">
         <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">MQL = deals únicos criados (deal_fcts)</div>
         <div style="display:flex; gap:24px; align-items:flex-end; justify-content:center;">
-          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">4.536</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
-          <div><div style="font-size: 38px; font-weight: 700; color: var(--gold);">38</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div></div>
-          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,8%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
+          <div><div style="font-size: 56px; font-weight: 800; color: var(--text);">4.444</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">MQLs</div></div>
+          <div><div style="font-size: 38px; font-weight: 700; color: var(--gold);">40</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div></div>
+          <div><div style="font-size: 28px; font-weight: 700; color: var(--gold);">0,86%</div><div style="font-size: 12px; color: var(--text2); margin-top: 4px;">CVR</div></div>
         </div>
       </div>
       <div class="pipeline-stats">
-        <div><div class="pipeline-stat-val" style="color: var(--gold)">R$ 1,77M</div><div class="pipeline-stat-lbl">Receita</div></div>
+        <div><div class="pipeline-stat-val" style="color: var(--gold)">R$ 1,86M</div><div class="pipeline-stat-lbl">Receita</div></div>
         <div><div class="pipeline-stat-val" style="color: var(--success)">R$ 46,6k</div><div class="pipeline-stat-lbl">Ticket médio</div></div>
         <div><div class="pipeline-stat-val">YouTube</div><div class="pipeline-stat-lbl">Top canal</div></div>
       </div>
@@ -353,17 +357,17 @@
         <div style="font-size: 13px; color: var(--text2); margin-bottom: 12px;">Auto-compra — CR 100%</div>
         <div style="display:flex; align-items:flex-end; gap:16px; justify-content:center;">
           <div>
-            <div style="font-size: 56px; font-weight: 800; color: var(--success);">48</div>
+            <div style="font-size: 56px; font-weight: 800; color: var(--success);">49</div>
             <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">WONs</div>
           </div>
           <div style="padding-bottom: 6px;">
-            <div style="font-size: 24px; font-weight: 700; color: var(--success);">R$ 2,20M</div>
+            <div style="font-size: 24px; font-weight: 700; color: var(--success);">R$ 2,25M</div>
             <div style="font-size: 12px; color: var(--text2); margin-top: 4px;">Receita</div>
           </div>
         </div>
       </div>
       <div class="pipeline-stats">
-        <div><div class="pipeline-stat-val" style="color: var(--success)">R$ 2,20M</div><div class="pipeline-stat-lbl">Receita</div></div>
+        <div><div class="pipeline-stat-val" style="color: var(--success)">R$ 2,25M</div><div class="pipeline-stat-lbl">Receita</div></div>
         <div><div class="pipeline-stat-val" style="color: var(--success)">100%</div><div class="pipeline-stat-lbl">CR</div></div>
         <div><div class="pipeline-stat-val">YouTube</div><div class="pipeline-stat-lbl">Top canal</div></div>
       </div>
@@ -373,8 +377,8 @@
   <!-- ROW 4: CR POR CANAL + VENDEDORES (tabs) -->
   <div class="card">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('canal')">Por Canal</button>
-      <button class="tab" onclick="switchTab('vendedor')">Lançamento x Produto</button>
+      <button class="tab active" onclick="switchTab('canal', event)">Por Canal</button>
+      <button class="tab" onclick="switchTab('vendedor', event)">Lançamento x Produto</button>
     </div>
 
     <!-- TAB CANAL -->
@@ -492,9 +496,9 @@
           <tr style="background: rgba(185,145,91,0.06); border-top: 2px solid var(--border);">
             <td><strong>Total</strong></td>
             <td><strong>5.585</strong></td>
-            <td><strong>96</strong></td>
+            <td><strong>100</strong></td>
             <td><span class="badge badge-yellow">1,7%</span></td>
-            <td><strong style="color:var(--success)">R$ 4,43M</strong></td>
+            <td><strong style="color:var(--success)">R$ 4,57M</strong></td>
             <td><strong>100%</strong></td>
           </tr>
         </tbody>
@@ -519,31 +523,31 @@
           <tr>
             <td rowspan="4" style="color:var(--text2); font-size:12px; border-right: 1px solid var(--border); padding-right: 14px; vertical-align: middle;">Lançamento</td>
             <td>Comercial</td>
-            <td style="text-align:right">1.258</td>
-            <td style="text-align:right; color:var(--gold)"><strong>10</strong></td>
-            <td style="text-align:right"><span class="badge badge-red">0,8%</span></td>
-            <td style="text-align:right">452.700</td>
+            <td style="text-align:right">1.248</td>
+            <td style="text-align:right; color:var(--gold)"><strong>11</strong></td>
+            <td style="text-align:right"><span class="badge badge-red">0,80%</span></td>
+            <td style="text-align:right">454.297</td>
           </tr>
           <tr>
             <td>[ON] Selfcheckout</td>
-            <td style="text-align:right">48</td>
-            <td style="text-align:right; color:var(--success)"><strong>48</strong></td>
+            <td style="text-align:right">49</td>
+            <td style="text-align:right; color:var(--success)"><strong>49</strong></td>
             <td style="text-align:right"><span class="badge badge-green">100%</span></td>
-            <td style="text-align:right">2.204.280</td>
+            <td style="text-align:right">2.251.080</td>
           </tr>
           <tr>
             <td>Vendas Evento</td>
-            <td style="text-align:right">4.536 <span style="font-size:10px;color:var(--text2)">(únicos)</span></td>
-            <td style="text-align:right; color:var(--success)"><strong>38</strong></td>
-            <td style="text-align:right"><span class="badge badge-red">0,8%</span></td>
-            <td style="text-align:right">1.769.400</td>
+            <td style="text-align:right">4.446 <span style="font-size:10px;color:var(--text2)">(únicos)</span></td>
+            <td style="text-align:right; color:var(--success)"><strong>40</strong></td>
+            <td style="text-align:right"><span class="badge badge-red">0,86%</span></td>
+            <td style="text-align:right">1.863.000</td>
           </tr>
           <tr style="background: var(--card2);">
             <td><strong>Subtotal (Lançamento)</strong></td>
-            <td style="text-align:right"><strong>5.842</strong></td>
-            <td style="text-align:right; color:var(--gold)"><strong>96</strong></td>
-            <td style="text-align:right"><span class="badge badge-yellow">1,6%</span></td>
-            <td style="text-align:right"><strong>4.426.380</strong></td>
+            <td style="text-align:right"><strong>5.742</strong></td>
+            <td style="text-align:right; color:var(--gold)"><strong>100</strong></td>
+            <td style="text-align:right"><span class="badge badge-yellow">1,74%</span></td>
+            <td style="text-align:right"><strong>4.568.377</strong></td>
           </tr>
           <!-- PRODUTO -->
           <tr>
@@ -571,10 +575,10 @@
           <!-- TOTAL -->
           <tr style="background: rgba(185,145,91,0.06); border-top: 2px solid var(--border);">
             <td colspan="2" style="border-top: 2px solid var(--border);"><strong>Report Total</strong></td>
-            <td style="text-align:right; border-top: 2px solid var(--border);"><strong>4.893</strong></td>
-            <td style="text-align:right; color:var(--success); border-top: 2px solid var(--border);"><strong>120</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border);"><strong>4.740</strong></td>
+            <td style="text-align:right; color:var(--success); border-top: 2px solid var(--border);"><strong>131</strong></td>
             <td style="text-align:right; border-top: 2px solid var(--border);">—</td>
-            <td style="text-align:right; border-top: 2px solid var(--border);"><strong style="color:var(--success)">5.566.956</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border);"><strong style="color:var(--success)">5.999.253</strong></td>
           </tr>
         </tbody>
       </table>
@@ -623,7 +627,7 @@
 </div>
 
 <div class="footer">
-  Dados: Databricks production · g4-ia-0326 · Atualizado 27/03/2026 20:21 · G4 OS Mission Control
+  Dados: Databricks production · edicao_do_evento=g4-ia-0326 · Atualizado 28/03/2026 00:53 · G4 OS Mission Control
 </div>
 
 <script>
@@ -646,11 +650,11 @@ updateClock();
 setInterval(updateClock, 1000);
 
 // TABS
-function switchTab(name) {
+function switchTab(name, evt) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+  if(evt) evt.target.classList.add('active');
 }
 
 // CHART CORES — G4 Brand System
@@ -669,8 +673,8 @@ Chart.defaults.borderColor = GRID_COLOR;
 // Query: SELECT pipeline_name, DATE(closed_at), COUNT(*), SUM(revenue) WHERE linha_de_receita_operacional='g4-ia-0326' AND stage IN ('Ganho','Pagamento Parcial - Ganho')
 const diasLabels = ['23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '30/03'];
 const metas      = [3510000, 1216800, 982800, 795600, 608400, 561600, 2480400];
-const selfcheckout = [1923480, 46800, 46800, 140400, 46800, 0, 0];
-const vendasEvento = [795600, 421200, 327600, 131400, 93600, 0, 0];
+const selfcheckout = [1923480, 93600, 46800, 140400, 46800, 0, 0];
+const vendasEvento = [842400, 468000, 327600, 131400, 93600, 0, 0];
 const comercial    = [0, 59800, 93600, 46800, 252500, 0, 0];
 // Dados atualizados em 27/03 20h00
 
