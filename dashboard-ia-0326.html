@@ -585,7 +585,7 @@
           <!-- TOTAL -->
           <tr style="background: rgba(185,145,91,0.06); border-top: 2px solid var(--border);">
             <td colspan="2" style="border-top: 2px solid var(--border);"><strong>Report Total</strong></td>
-            <td style="text-align:right; border-top: 2px solid var(--border);"><strong>4.740</strong></td>
+            <td style="text-align:right; border-top: 2px solid var(--border);"><strong>5.752</strong></td>
             <td style="text-align:right; color:var(--success); border-top: 2px solid var(--border);"><strong>139</strong></td>
             <td style="text-align:right; border-top: 2px solid var(--border);">—</td>
             <td style="text-align:right; border-top: 2px solid var(--border);"><strong style="color:var(--success)">6.344.053</strong></td>
@@ -686,7 +686,7 @@ const metas      = [3510000, 1216800, 982800, 795600, 608400, 561600, 2480400];
 const selfcheckout = [1923480, 93600, 46800, 140400, 46800, 0, 0];
 const vendasEvento = [842400, 468000, 327600, 131400, 93600, 0, 0];
 const comercial    = [0, 59800, 93600, 46800, 252500, 0, 0];
-// Dados atualizados em 27/03 20h00
+// Dados: production.gold.deals_fct — edicao_do_evento=g4-ia-0326
 
 new Chart(document.getElementById('chartDiario'), {
   type: 'bar',
@@ -810,7 +810,7 @@ new Chart(document.getElementById('chartInvest'), {
 });
 
 // MQLs DIÁRIOS — fonte: production.gold.deals_fct (created_at), g4-ia-0326
-// Query: SELECT pipeline_name, DATE(created_at), COUNT(*) WHERE linha_de_receita_operacional='g4-ia-0326' AND created_at >= '2026-03-23'
+// Query: production.gold.deals_fct WHERE edicao_do_evento=g4-ia-0326 AND created_at >= 2026-03-23
 const mqlLabels = ['23/03', '24/03', '25/03', '26/03', '27/03'];
 const mqlComercial    = [6, 1, 225, 596, 426];
 const mqlVendasEvento = [1770, 1750, 441, 320, 165];
