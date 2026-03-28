@@ -88,6 +88,7 @@
 
   /* KPI GRID */
   .kpi-grid { display: grid; gap: 14px; }
+  .kpi-grid-2 { grid-template-columns: repeat(2, 1fr); }
   .kpi-grid-3 { grid-template-columns: repeat(3, 1fr); }
   .kpi-grid-4 { grid-template-columns: repeat(4, 1fr); }
   .kpi-card {
@@ -283,22 +284,11 @@
   </div>
 
   <!-- ROW 2: FUNIL KPIs -->
-  <div class="kpi-grid kpi-grid-4">
+  <div class="kpi-grid kpi-grid-2">
     <div class="kpi-card accent">
       <div class="kpi-label">MQLs Total <span class="info-icon">i<span class="info-tooltip">Todos os pipelines válidos: Comercial (1.432) · Vendas Evento (4.589) · Pipeline Receptor (1.511) · Selfcheckout (49) · Expansão (31) · Churn (9). Exclui pipelines de teste.</span></span></div>
       <div class="kpi-value red">7.621</div>
       <div class="kpi-sub">meta <span>8.412</span> · Comercial <span>1.432</span></div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Conectados (SAL)</div>
-      <div class="kpi-value">1.038</div>
-      <div class="kpi-sub">CR MQL→SAL <span>65,1%</span></div>
-    </div>
-
-    <div class="kpi-card">
-      <div class="kpi-label">Oportunidades</div>
-      <div class="kpi-value">137</div>
-      <div class="kpi-sub">Em negociação ativa</div>
     </div>
     <div class="kpi-card accent">
       <div class="kpi-label">CR MQL→WON</div>
@@ -306,7 +296,6 @@
       <div class="kpi-sub">meta <span>2,43%</span> · 100 WONs</div>
       <div class="kpi-bar"><div class="kpi-bar-fill" style="width:54%; background: var(--gold)"></div></div>
     </div>
-
   </div>
 
   <!-- ROW 3: PIPELINE COMPARISON -->
