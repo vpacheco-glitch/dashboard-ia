@@ -585,32 +585,6 @@
     <canvas id="chartMQL" height="90"></canvas>
   </div>
 
-  <!-- ROW 6: INVESTIMENTO -->
-  <div>
-    <div class="efficiency-kpis">
-      <div class="kpi-card accent">
-        <div class="kpi-label">Investimento Total <span class="info-icon">i<span class="info-tooltip">Investimento em mídia paga: Facebook + Google (event='investimento', desde 07/03/2026).</span></span></div>
-        <div class="kpi-value">R$ 5,68M</div>
-        <div class="kpi-sub">Facebook <span>R$ 5,23M</span> · Google <span>R$ 449k</span></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">ROAS Lançamento</div>
-        <div class="kpi-value" style="color: var(--gold)">0,81x</div>
-        <div class="kpi-sub">meta <span>4,36x</span> · R$ 4,61M / R$ 5,68M</div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:18%; background: var(--gold)"></div></div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">ROAS Projeto</div>
-        <div class="kpi-value" style="color: var(--success)">1,13x</div>
-        <div class="kpi-sub">CPA/WON <span>R$ 56,8k</span> · Receita total <span>R$ 6,45M</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Investimento Diário por Plataforma (março)</div>
-      <canvas id="chartInvest" height="80"></canvas>
-    </div>
-  </div>
-
 
 </div>
 
@@ -714,81 +688,6 @@ new Chart(document.getElementById('chartDiario'), {
   }
 });
 
-// INVESTIMENTO DIÁRIO — fonte: production.gold.marketing_fct — event='investimento', utm_source IN ('facebook','google')
-// Atualizado: 30/03/2026 12:44
-const investDias = ['07/03','08/03','09/03','10/03','11/03','12/03','13/03','14/03','15/03','16/03','17/03','18/03','19/03','20/03','21/03','22/03','23/03','24/03','25/03','26/03','27/03','28/03','29/03','30/03'];
-const fb = [113808,132346,163513,154522,229397,317123,290926,299915,317340,275417,267079,311804,412185,323469,269629,350401,260600,111799,86831,108740,145817,119327,143649,26684];
-const gg = [19655,20073,21557,21637,25023,25212,18088,15262,18417,26392,21991,19358,17624,16772,17748,18449,18048,18920,18657,22439,16241,14202,15546,2143];
-// FB total: R$ 5.232.321 | GG: R$ 449.454 | Total: R$ 5.681.775 — Atualizado 30/03/2026 12:44
-
-// Acumulados
-const fbAcum = fb.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
-const ggAcum = gg.reduce((acc, v, i) => { acc.push((acc[i-1]||0)+v); return acc; }, []);
-const totalAcum = fbAcum.map((v, i) => v + ggAcum[i]);
-
-new Chart(document.getElementById('chartInvest'), {
-  type: 'bar',
-  data: {
-    labels: investDias,
-    datasets: [
-      {
-        label: 'Facebook', data: fb,
-        backgroundColor: 'rgba(23,60,85,0.85)', borderRadius: 2,
-        stack: 'inv', order: 2,
-      },
-      {
-        label: 'Google', data: gg,
-        backgroundColor: 'rgba(66,133,244,0.55)', borderRadius: 2,
-        stack: 'inv', order: 2,
-      },
-      {
-        label: 'Acum. Facebook', data: fbAcum,
-        type: 'line', order: 1,
-        borderColor: '#173C55', backgroundColor: 'transparent',
-        borderWidth: 2, borderDash: [4,3], pointRadius: 2, pointHoverRadius: 4,
-        yAxisID: 'yAcum',
-      },
-      {
-        label: 'Acum. Total', data: totalAcum,
-        type: 'line', order: 0,
-        borderColor: '#B9915B', backgroundColor: 'transparent',
-        borderWidth: 2.5, pointRadius: 2, pointHoverRadius: 4,
-        yAxisID: 'yAcum',
-      },
-    ]
-  },
-  options: {
-    responsive: true,
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { labels: { font: { size: 11 }, boxWidth: 12 } },
-      tooltip: {
-        callbacks: {
-          label: ctx => {
-            const v = ctx.raw;
-            if (ctx.dataset.yAxisID === 'yAcum') {
-              return ` ${ctx.dataset.label}: R$ ${(v/1000).toFixed(0)}k acum.`;
-            }
-            return ` ${ctx.dataset.label}: R$ ${(v/1000).toFixed(1)}k`;
-          }
-        }
-      },
-      annotation: {}
-    },
-    scales: {
-      x: { stacked: true, grid: { display: false }, ticks: { font: { size: 10 } } },
-      y: {
-        stacked: true,
-        ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' }
-      },
-      yAcum: {
-        position: 'right',
-        grid: { drawOnChartArea: false },
-        ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k', font: { size: 10 } }
-      }
-    }
-  }
-});
 
 // MQLs DIÁRIOS — fonte: production.gold.deals_fct (created_at), g4-ia-0326
 // Query: production.gold.deals_fct WHERE linha_de_receita_operacional='g4-ia-0326' AND pipeline_name IN ('Comercial','Vendas Evento') AND created_at >= '2026-03-23'
